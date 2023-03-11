@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { ipcRenderer } from 'electron';
 
 export default function LaunchpadTile({ desk, charge, focusByCharge, launchOpen }) {
     return <div
@@ -18,8 +19,12 @@ export default function LaunchpadTile({ desk, charge, focusByCharge, launchOpen 
             style={{ backgroundColor: charge.color }}
             onClick={() => {
                 if (!("install" in charge?.chad || "suspend" in charge?.chad)) {
-                    focusByCharge(charge);
-                    launchOpen.set(prev => !prev);
+                    // focusByCharge(charge);
+                    // launchOpen.set(prev => !prev);
+                    ipcRenderer.send('openApp', {
+                        url: "glob" in charge.chad
+                            ? `${window.url}/apps/${charge.href.glob.base}`
+                            : `${window.url}${charge.href.site}`});
                 }
             }}
         >

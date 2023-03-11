@@ -25,6 +25,7 @@ let dl_url;
 function createWindow(dl_url) {
     const mainScreen = screen.getPrimaryDisplay();
     mainWindow = new BrowserWindow({
+        transparent: true,
         width: mainScreen.size.width,
         height: mainScreen.size.height,
         minWidth: WIN_OR_MAC ? 800 : undefined,
@@ -236,6 +237,36 @@ app.on("window-all-closed", function () {
 
 // Handle frontend app version query. No better way to do this, afaict.
 ipcMain.handle('query-version', () => app.getVersion());
+
+ipcMain.on('openApp', (_, args) => {
+    console.log('open!');
+    console.dir(args);
+
+    const mainScreen = screen.getPrimaryDisplay();
+    const subWindow = new BrowserWindow({
+        width: mainScreen.size.width,
+        height: mainScreen.size.height,
+        minWidth: WIN_OR_MAC ? 800 : undefined,
+        minHeight: WIN_OR_MAC ? 600 : undefined,
+        backgroundColor: 'black',
+        webPreferences: {
+            title: "Scene",
+            preload: path.join(__dirname, "preload.js"),
+            webSecurity: false,
+            nodeIntegration: true,
+            contextIsolation: false
+        },
+    });
+
+    subWindow.setMenu(null);
+    // const href =
+    //   "glob" in win.chad
+    //     ? `${window.url}/apps/${win.href.glob.base}`
+    //     : `${window.url}${win.href.site}`;
+    // const url = auth?.url || process.env.REACT_APP_URL;
+    console.log(`${url}/apps/webterm`);
+    subWindow.loadURL(args.url);
+});
 
 // See src/components/Onboarding/confirm.js.
 // We respawn the app once we set the cookies so that we relaunch into the desktop.

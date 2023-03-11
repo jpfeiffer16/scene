@@ -18,7 +18,7 @@ export default function Launchpad({
     <div
       className={cn(
         "bg-[rgba(0,0,0,0.7)] shadow-md shadow-[rgba(0,0,0,0.1)] w-full h-full max-w-[1024px] max-h-[80vh] z-[1000] rounded-xl m-4 flex flex-col items-center justify-center backdrop-blur-sm transition-all ease-in-out p-6 grow",
-        { "opacity-0 fade-in": launchOpen.value, invisible: !launchOpen.value }
+        { "opacity-0 fade-in": launchOpen.value }
       )}
       ref={wrapperRef}
     >

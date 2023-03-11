@@ -159,42 +159,10 @@ function App() {
           set: setLaunchOpen
         }
       }}>
-        <div
-          className="bg-[#e4e4e4] h-screen w-screen flex flex-col absolute overflow-hidden"
-          style={{
-            backgroundImage: `url(${bgImage.startsWith('hallstatt') ? '' : 'file://'}${encodeURI(bgImage)})`,
-            backgroundSize: 'cover',
-          }}>
-          <HeaderBar updateAvailable={updateAvailable}>
-            <PlanetMenu updateAvailable={updateAvailable} />
-            <HamburgerMenu
-              setBgImage={setBgImage}
-              nativeNotifs={{
-                value: showNativeNotifs,
-                set: next => {
-                  setShowNativeNotifs(next);
-                  window.localStorage.setItem('nativeNotifs', JSON.stringify(next))
-                }
-              }}
-            />
-            <Notifications
-              charges={apps.charges}
-              focusByCharge={focusByCharge}
-            />
-          </HeaderBar>
-          <Screen>
-            <Launchpad
-              apps={apps}
-              focusByCharge={focusByCharge}>
-              <Search
-                allies={{ value: allies, set: setAllies }}
-                treaties={{ value: treaties, set: setTreaties }}
-                apps={apps}
-              />
-            </Launchpad>
-            <Dock apps={apps} />
-          </Screen>
-        </div>
+        <Launchpad
+          apps={apps}
+          focusByCharge={focusByCharge}>
+        </Launchpad>
       </WindowContext.Provider>
     </ThemeContext.Provider>
   );
